@@ -27,15 +27,16 @@ public class BuildingQunYuGe extends Building {
         }
     }
     static {
-        buildingFactory.buildingKindList.put(BuildingName, BuildingQunYuGe.class);
+        BuildingFactory.buildingKindList.put(BuildingName, BuildingQunYuGe.class);
     }
 
     public BuildingQunYuGe(Location loc, UUID owner) {
         super(loc, owner);
         incidence = new Incidence(loc,
                 staticSchematic.width(),
-                staticSchematic.length(),
-                staticSchematic.height());
+                staticSchematic.height(),
+                staticSchematic.length()
+                );
     }
 
     @Override

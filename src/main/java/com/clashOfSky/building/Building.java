@@ -24,6 +24,7 @@ abstract public class Building {
     boolean isEnable;
     boolean placeSuccess;
     Incidence incidence;
+    int level = 1;
     UUID ownerUUID;
     UUID uuid;
     public Building(Location loc,UUID owner) {

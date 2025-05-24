@@ -6,6 +6,7 @@ import org.bukkit.World;
 public class Incidence{
     Location location;
     Size size;
+
     public Incidence(Location loc,Size s){
         location = loc;
         size = s;

@@ -28,10 +28,9 @@ public class BuildingCmd implements CommandExecutor {
     }
     void placeHere(String[] strings,CommandSender sender){
         if(!(sender instanceof Player player))return;
-        player.sendMessage("注册的建筑列表：" + buildingFactory.buildingKindList.keySet());
+        player.sendMessage("注册的建筑列表：" + BuildingFactory.buildingKindList.keySet());
         player.sendMessage("开始建造：" + strings[0]);
         Location loc = player.getLocation();
-        Building build = buildingFactory.createBuilding(strings[0],loc,player.getUniqueId());
-        build.placeBuilding();
+        Building build = BuildingFactory.createBuilding(strings[0],loc,player.getUniqueId());
     }
 }

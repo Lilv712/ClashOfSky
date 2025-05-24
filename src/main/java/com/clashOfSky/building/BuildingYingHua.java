@@ -27,15 +27,16 @@ public class BuildingYingHua extends Building {
         }
     }
     static {
-        buildingFactory.buildingKindList.put(BuildingName, BuildingYingHua.class);
+        BuildingFactory.buildingKindList.put(BuildingName, BuildingYingHua.class);
     }
 
     public BuildingYingHua(Location loc, UUID owner) {
         super(loc, owner);
         incidence = new Incidence(loc,
                 staticSchematic.width(),
-                staticSchematic.length(),
-                staticSchematic.height());
+                staticSchematic.height(),
+                staticSchematic.length()
+        );
     }
 
     @Override

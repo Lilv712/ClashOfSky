@@ -11,18 +11,18 @@ import java.util.*;
 
 public class BuildingManager {
 //    建筑分布图，建筑会把所有能够影响到的区块都加入哈希表
-    Map<Chunk, Set<Building>> buildingMap = new HashMap<>();
+    static Map<Chunk, Set<Building>> buildingMap = new HashMap<>();
 //    服务器中所有建筑的存储
-    Map<UUID, Set<Building>> buildingList = new HashMap<>();
+    static Map<UUID, Set<Building>> buildingList = new HashMap<>();
 
-    void addBuildingToBuildingList(Building building){
+    public static void addBuildingToBuildingList(Building building){
         UUID owner = building.getOwner();
         //            如果该玩家没有建筑
         //            则为玩家创建建筑列表
         buildingList.computeIfAbsent(owner, k -> new HashSet<>())
                 .add(building);
     }
-    void addBuildingToBuildingMap(Incidence maxIncidence,Building building) {
+    public static void addBuildingToBuildingMap(Incidence maxIncidence,Building building) {
         Chunk chunkbase = maxIncidence.location.getChunk();
         int baseX = chunkbase.getX();
         int baseZ = chunkbase.getZ();
@@ -35,7 +35,7 @@ public class BuildingManager {
                 set.add(building);
             }
     }
-    void removeBuildingFromBuildingMap(Incidence maxIncidence,Building building){
+    public static void removeBuildingFromBuildingMap(Incidence maxIncidence,Building building){
         Chunk chunkbase = maxIncidence.location.getChunk();
         int baseX = chunkbase.getX();
         int baseZ = chunkbase.getZ();
@@ -50,5 +50,32 @@ public class BuildingManager {
                 if(set.isEmpty())
                     buildingMap.remove(chunk);
             }
+    }
+    public static Building searchBuilding(Location loc){
+        Chunk chunk = loc.getChunk();
+        Set<Building> maybeBuildingList = buildingMap.get(chunk);
+        for(Building building : maybeBuildingList){
+            if(building.incidence.isInBuilding(loc))return building;
+        }
+        return null;
+    }
+    public static Set<Building> searchBuilding(Incidence incidence){
+        Set<Building> returnSet = new HashSet<>();
+        Chunk chunkbase = incidence.location.getChunk();
+        int baseX = chunkbase.getX();
+        int baseZ = chunkbase.getZ();
+        int chunkWidth = (incidence.size.X + 15) / 16;
+        int chunkLength = (incidence.size.Z + 15) / 16;
+        for (int xchunk = baseX; xchunk < baseX + chunkWidth; xchunk++)
+            for (int zchunk = baseZ; zchunk < baseZ + chunkLength; zchunk++) {
+                Chunk chunk = chunkbase.getWorld().getChunkAt(xchunk, zchunk);
+                Set<Building> set = buildingMap.get(chunk);
+                if(set == null)continue;
+                for(Building building : set){
+                    if(building.incidence.isInBuilding(incidence))
+                        returnSet.add(building);
+                }
+            }
+        return returnSet;
     }
 }
