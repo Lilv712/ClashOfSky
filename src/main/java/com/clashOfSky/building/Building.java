@@ -1,6 +1,8 @@
 package com.clashOfSky.building;
 
 import com.clashOfSky.ClashOfSky;
+import net.sandrohc.schematic4j.SchematicLoader;
+import net.sandrohc.schematic4j.exception.ParsingException;
 import net.sandrohc.schematic4j.schematic.Schematic;
 import net.sandrohc.schematic4j.schematic.types.Pair;
 import net.sandrohc.schematic4j.schematic.types.SchematicBlock;
@@ -12,6 +14,8 @@ import org.bukkit.block.Block;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Iterator;
 import java.util.Objects;
 import java.util.UUID;
@@ -22,20 +26,29 @@ abstract public class Building {
     static String buildingFolder = "schematic";
 
     boolean isEnable;
-    boolean placeSuccess;
     Incidence incidence;
-    int level = 1;
     UUID ownerUUID;
     UUID uuid;
-    int Health;
+    public int Health;
     public Building(Location loc,UUID owner) {
         isEnable = false;
         ownerUUID = owner;
         uuid = UUID.randomUUID();
+        incidence = new Incidence(loc,getSize());
         placeBuilding();
     }
     public abstract String getName();
-    public abstract Schematic getSchematic();
+    public Schematic getSchematic(){
+        try {
+            return SchematicLoader.load(new File("./" + buildingFolder + "/" + getName() + ".litematic"));
+        } catch (ParsingException | IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    public Size getSize(){
+        Schematic schematic = getSchematic();
+        return new Size(schematic.width(),schematic.height(),schematic.length());
+    }
     public UUID getOwner(){
         return ownerUUID;
     }
@@ -56,7 +69,6 @@ abstract public class Building {
     public String getInfo(){
         String info = "";
         info += ("名称:" + getName() + "\n");
-        info += ("等级:" + level + "\n");
         info += ("所有者:" + Bukkit.getPlayer(ownerUUID).getName() + "\n");
         return info;
     }

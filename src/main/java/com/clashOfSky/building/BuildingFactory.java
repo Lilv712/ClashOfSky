@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.UUID;
 
 public class BuildingFactory {
-    static HashMap<String,Class<? extends Building>> buildingKindList = new HashMap<>();
+    public static HashMap<String,Class<? extends Building>> buildingKindList = new HashMap<>();
 
     public static Building createBuilding(String name, Location loc, UUID owner){
         Class<? extends Building> build = BuildingFactory.buildingKindList.get(name);

@@ -13,6 +13,7 @@ import java.util.UUID;
 public abstract class ResourceBuilding extends Building implements CollectAble{
     int inventory;
     int LastProduceTick;
+    public int level;
     public ResourceBuilding(Location loc, UUID owner) {
         super(loc, owner);
         LastProduceTick = Bukkit.getCurrentTick();
@@ -37,6 +38,7 @@ public abstract class ResourceBuilding extends Building implements CollectAble{
     public String getInfo(){
         RefreshInventory();
         String info = super.getInfo();
+        info += ("等级:" + level + "\n");
         info += ("生产货物:" + getGoodsName() + "\n");
         info += ("最大存储数量:" + getMaxInventory() + "\n");
         info += ("最小保留数量:" + getMinInventory() + "\n");
