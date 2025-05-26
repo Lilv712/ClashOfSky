@@ -27,6 +27,7 @@ abstract public class Building {
     int level = 1;
     UUID ownerUUID;
     UUID uuid;
+    int Health;
     public Building(Location loc,UUID owner) {
         isEnable = false;
         ownerUUID = owner;
@@ -52,7 +53,13 @@ abstract public class Building {
     public int hashCode() {
         return Objects.hashCode(uuid);
     }
-
+    public String getInfo(){
+        String info = "";
+        info += ("名称:" + getName() + "\n");
+        info += ("等级:" + level + "\n");
+        info += ("所有者:" + Bukkit.getPlayer(ownerUUID).getName() + "\n");
+        return info;
+    }
     public void placeBuilding(){
         isEnable = false;
         Stream<Pair<SchematicBlockPos, SchematicBlock>> blockstream = getSchematic().blocks();
@@ -61,7 +68,7 @@ abstract public class Building {
             @Override
             public void run() {
                 int blocksPlaced = 0;
-                while (iterator.hasNext() && blocksPlaced < 1000) { // 每tick最多放10个，避免卡顿
+                while (iterator.hasNext() && blocksPlaced < BuildingManager.maxBlocksPlacedPerTick) { // 每tick最多放10个，避免卡顿
                     Pair<SchematicBlockPos, SchematicBlock> scheblock = iterator.next();
 
                     int xoffset = Math.abs(scheblock.left.x);

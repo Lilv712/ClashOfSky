@@ -14,7 +14,8 @@ public class BuildingManager {
     static Map<Chunk, Set<Building>> buildingMap = new HashMap<>();
 //    服务器中所有建筑的存储
     static Map<UUID, Set<Building>> buildingList = new HashMap<>();
-
+//    buildingplace方法中每tick最多放置的方块
+    static int maxBlocksPlacedPerTick = 1000;
     public static void addBuildingToBuildingList(Building building){
         UUID owner = building.getOwner();
         //            如果该玩家没有建筑
