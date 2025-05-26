@@ -29,7 +29,7 @@ abstract public class Building {
     Incidence incidence;
     UUID ownerUUID;
     UUID uuid;
-    public int Health;
+    public int health;
     public Building(Location loc,UUID owner) {
         isEnable = false;
         ownerUUID = owner;
@@ -70,6 +70,7 @@ abstract public class Building {
         String info = "";
         info += ("名称:" + getName() + "\n");
         info += ("所有者:" + Bukkit.getPlayer(ownerUUID).getName() + "\n");
+        info += ("血量:" + health + "\n");
         return info;
     }
     public void placeBuilding(){

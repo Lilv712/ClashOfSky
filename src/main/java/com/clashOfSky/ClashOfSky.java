@@ -12,6 +12,7 @@ public final class ClashOfSky extends JavaPlugin {
         try {
             Class.forName("com.clashOfSky.building.BuildingQunYuGe");
             Class.forName("com.clashOfSky.building.BuildingYingHua");
+            Class.forName("com.clashOfSky.building.ResourceBuilding.BuildingExample.BaseCamp");
 
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);

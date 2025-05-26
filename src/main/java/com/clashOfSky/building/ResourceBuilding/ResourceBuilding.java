@@ -8,6 +8,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
+import java.util.List;
 import java.util.UUID;
 
 public abstract class ResourceBuilding extends Building implements CollectAble{
@@ -26,20 +27,27 @@ public abstract class ResourceBuilding extends Building implements CollectAble{
         inventory += GoodsNum;
         if(inventory > getMaxInventory())inventory = getMaxInventory();
     }
+    @Override
     public void collect(Player player) {
         RefreshInventory();
         if(inventory <= getMinInventory())return;
         int goodsNum = inventory - getMinInventory();
-        Goods goods = getGoodsType();
-        PlayerItemGiver.giveItemToPlayer(player,goods.material,goods.num * goodsNum);
-        player.sendMessage(ChatColor.GREEN + "获得 " + goods.name + " * " + goodsNum*goods.num);
+        inventory = inventory - goodsNum;
+        for(Goods goods:getGoodsType()){
+            PlayerItemGiver.giveItemToPlayer(player,goods.material,goods.num * goodsNum);
+            player.sendMessage(ChatColor.GREEN + "获得 " + goods.name + " * " + goodsNum*goods.num);
+        }
     }
-
+    @Override
     public String getInfo(){
         RefreshInventory();
         String info = super.getInfo();
-        info += ("等级:" + level + "\n");
-        info += ("生产货物:" + getGoodsName() + "\n");
+        String goodsStr = "";
+        for(Goods goods:getGoodsType())
+            goodsStr += (goods.name + "*" + goods.num + "、");
+        goodsStr = goodsStr.substring(0,goodsStr.length()-1);
+        info += ("等级:" + (level + 1) + "\n");
+        info += ("生产货物:" + goodsStr + "\n");
         info += ("最大存储数量:" + getMaxInventory() + "\n");
         info += ("最小保留数量:" + getMinInventory() + "\n");
         info += ("生产时间:" + getProduceOneGoodsTime() + "\n");

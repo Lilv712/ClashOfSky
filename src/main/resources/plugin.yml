@@ -5,5 +5,3 @@ api-version: '1.21'
 commands:
   build:
     description: "建造建筑相关"
-    aliases: ["placehere","info"]
-

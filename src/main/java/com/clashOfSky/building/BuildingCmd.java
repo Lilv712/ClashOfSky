@@ -1,5 +1,6 @@
 package com.clashOfSky.building;
 
+import com.clashOfSky.building.ResourceBuilding.ResourceBuilding;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -21,7 +22,11 @@ public class BuildingCmd implements CommandExecutor {
             case "placehere":
                 placeHere(SonCommand,commandSender);
                 return true;
-
+            case "info":
+                info(commandSender);
+                return true;
+            case "collect":
+                collect(commandSender);
             default:
                 return false;
         }
@@ -32,5 +37,20 @@ public class BuildingCmd implements CommandExecutor {
         player.sendMessage("开始建造：" + strings[0]);
         Location loc = player.getLocation();
         Building build = BuildingFactory.createBuilding(strings[0],loc,player.getUniqueId());
+    }
+    void info(CommandSender sender){
+        if(!(sender instanceof Player player))return;
+        Location loc = player.getLocation();
+        Building building = BuildingManager.searchBuilding(loc);
+        if(building == null)return;
+        player.sendMessage(building.getInfo());
+    }
+    void collect(CommandSender sender){
+        if(!(sender instanceof Player player))return;
+        Location loc = player.getLocation();
+        Building building = BuildingManager.searchBuilding(loc);
+        if(building == null)return;
+        if(!(building instanceof CollectAble collectAble))return;
+        collectAble.collect(player);
     }
 }

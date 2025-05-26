@@ -55,6 +55,7 @@ public class BuildingManager {
     public static Building searchBuilding(Location loc){
         Chunk chunk = loc.getChunk();
         Set<Building> maybeBuildingList = buildingMap.get(chunk);
+        if(maybeBuildingList == null)return null;
         for(Building building : maybeBuildingList){
             if(building.incidence.isInBuilding(loc))return building;
         }

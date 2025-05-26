@@ -35,4 +35,16 @@ public class PlayerStoreHouse {
         storeHouse.StoreHouse.put(material,baseNum + num);
         return true;
     }
+    public static int searchItemFromPlayerStoreHouse(UUID uuid,Material material){
+        if(!isItemEnable(material))return -1;
+        checkStoreHouse(uuid);
+        return mainStoreHouse.get(uuid).StoreHouse.get(material);
+    }
+    public static boolean isItemEnable(Material material){
+        return whiteItemMap.containsKey(material);
+    }
+    public static void checkStoreHouse(UUID uuid){
+        if(mainStoreHouse.containsKey(uuid))return;
+        mainStoreHouse.put(uuid,new PlayerStoreHouse(uuid));
+    }
 }
