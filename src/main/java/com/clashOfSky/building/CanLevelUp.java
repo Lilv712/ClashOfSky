@@ -8,7 +8,9 @@ import java.util.List;
 //支持升级的建筑
 public interface CanLevelUp {
     void levelUp(Player player);
-    List<Goods> getResourceList();
+    List<Goods> getLevelUpResourceList();
     int getLevelUpTime();
+    int getMaxLevel();
+    boolean isMaxlevel();
 
 }

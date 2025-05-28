@@ -1,22 +1,26 @@
 package com.clashOfSky.building.ResourceBuilding;
 
 import com.clashOfSky.AboutPlayer.PlayerItemGiver;
+import com.clashOfSky.ClashOfSky;
 import com.clashOfSky.building.Building;
+import com.clashOfSky.building.CanLevelUp;
 import com.clashOfSky.building.CollectAble;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.List;
 import java.util.UUID;
 
-public abstract class ResourceBuilding extends Building implements CollectAble{
+public abstract class ResourceBuilding extends Building implements CollectAble, CanLevelUp {
     int inventory;
     int LastProduceTick;
     public int level;
     public ResourceBuilding(Location loc, UUID owner) {
         super(loc, owner);
+        level = 0;
         LastProduceTick = Bukkit.getCurrentTick();
 
     }
@@ -37,6 +41,24 @@ public abstract class ResourceBuilding extends Building implements CollectAble{
             PlayerItemGiver.giveItemToPlayer(player,goods.material,goods.num * goodsNum);
             player.sendMessage(ChatColor.GREEN + "获得 " + goods.name + " * " + goodsNum*goods.num);
         }
+    }
+    @Override
+    public void levelUp(Player player) {
+        if(isMaxlevel()){
+            player.sendMessage(ChatColor.RED + "已经满级！");
+            return;
+        }
+        if(!PlayerItemGiver.RemoveItemFromPlayer(player,getLevelUpResourceList())){
+            player.sendMessage(ChatColor.RED + "资源不足!");
+            return;
+        }
+        new BukkitRunnable(){
+            @Override
+            public void run(){
+                level++;
+                if(player.isOnline()) player.sendMessage(ChatColor.GREEN + "升级成功！");
+            }
+        }.runTaskLater(ClashOfSky.instance,getLevelUpTime());
     }
     @Override
     public String getInfo(){

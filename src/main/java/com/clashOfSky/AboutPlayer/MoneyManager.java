@@ -12,7 +12,7 @@ import java.util.UUID;
 
 public class MoneyManager {
     static Map<UUID, BigDecimal> playerMoney = new HashMap<>();
-    public BigDecimal ShowMoney(UUID player){
+    public static BigDecimal ShowMoney(UUID player){
         checkAccount(player);
         return playerMoney.get(player);
     }

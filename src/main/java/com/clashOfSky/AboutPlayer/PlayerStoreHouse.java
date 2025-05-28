@@ -10,6 +10,7 @@ public class PlayerStoreHouse {
 //    可以在仓库中存储的物资
     static final Map<Material,String> whiteItemMap;
     static Map<UUID,PlayerStoreHouse> mainStoreHouse;
+    static Map<UUID,UUID> UUIDReflectMap;
     static {
         mainStoreHouse = new HashMap<>();
         whiteItemMap = new HashMap<>();
@@ -27,6 +28,7 @@ public class PlayerStoreHouse {
         mainStoreHouse.put(uuid,this);
     }
     public static boolean addItemToStoreHouse(UUID uuid,Material material,int num){
+        uuid = UUIDReflect(uuid);
         PlayerStoreHouse storeHouse = mainStoreHouse.get(uuid);
         if(storeHouse == null)storeHouse = new PlayerStoreHouse(uuid);
         if(!whiteItemMap.containsKey(material))return false;
@@ -35,8 +37,17 @@ public class PlayerStoreHouse {
         storeHouse.StoreHouse.put(material,baseNum + num);
         return true;
     }
+    public static boolean setItemToStoreHouse(UUID uuid,Material material,int num){
+        uuid = UUIDReflect(uuid);
+        PlayerStoreHouse storeHouse = mainStoreHouse.get(uuid);
+        if(storeHouse == null)storeHouse = new PlayerStoreHouse(uuid);
+        if(!whiteItemMap.containsKey(material))return false;
+        storeHouse.StoreHouse.put(material,num);
+        return true;
+    }
     public static int searchItemFromPlayerStoreHouse(UUID uuid,Material material){
-        if(!isItemEnable(material))return -1;
+        uuid = UUIDReflect(uuid);
+        if(!isItemEnable(material))return 0;
         checkStoreHouse(uuid);
         return mainStoreHouse.get(uuid).StoreHouse.get(material);
     }
@@ -44,7 +55,31 @@ public class PlayerStoreHouse {
         return whiteItemMap.containsKey(material);
     }
     public static void checkStoreHouse(UUID uuid){
+        uuid = UUIDReflect(uuid);
         if(mainStoreHouse.containsKey(uuid))return;
         mainStoreHouse.put(uuid,new PlayerStoreHouse(uuid));
+    }
+    public static UUID UUIDReflect(UUID uuid){
+        if(UUIDReflectMap.containsKey(uuid))
+            return  UUIDReflectMap.get(uuid);
+        return uuid;
+    }
+    public static PlayerStoreHouse getPlayerStoreHouse(UUID uuid){
+        uuid = UUIDReflect(uuid);
+        checkStoreHouse(uuid);
+        return  mainStoreHouse.get(uuid);
+    }
+    public static void bindPlayer(UUID master,UUID guest){
+        checkStoreHouse(master);
+        checkStoreHouse(guest);
+        Map<Material, Integer> masterStoreHouse = PlayerStoreHouse.getPlayerStoreHouse(master).getStoreHouse();
+        Map<Material, Integer> guestStoreHouse = PlayerStoreHouse.getPlayerStoreHouse(guest).getStoreHouse();
+        for(Material material:masterStoreHouse.keySet())
+            masterStoreHouse.put(material,masterStoreHouse.get(material) + guestStoreHouse.get(material));
+        PlayerStoreHouse.mainStoreHouse.remove(guest);
+        UUIDReflectMap.put(guest,master);
+    }
+    public Map<Material, Integer> getStoreHouse(){
+        return StoreHouse;
     }
 }

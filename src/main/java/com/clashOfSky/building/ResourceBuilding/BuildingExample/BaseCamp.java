@@ -1,24 +1,21 @@
 package com.clashOfSky.building.ResourceBuilding.BuildingExample;
 
+import com.clashOfSky.AboutPlayer.PlayerItemGiver;
 import com.clashOfSky.ClashOfSky;
 import com.clashOfSky.building.BuildingFactory;
-import com.clashOfSky.building.BuildingQunYuGe;
 import com.clashOfSky.building.CanLevelUp;
 import com.clashOfSky.building.ResourceBuilding.Goods;
 import com.clashOfSky.building.ResourceBuilding.ResourceBuilding;
-import net.sandrohc.schematic4j.SchematicLoader;
-import net.sandrohc.schematic4j.schematic.Schematic;
-import org.bukkit.Bukkit;
+
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.io.File;
 import java.util.*;
 
-public class BaseCamp extends ResourceBuilding implements CanLevelUp {
+public class BaseCamp extends ResourceBuilding {
     static {
         BuildingFactory.buildingKindList.put("大本营", BaseCamp.class);
     }
@@ -28,11 +25,9 @@ public class BaseCamp extends ResourceBuilding implements CanLevelUp {
     static final int[] maxHealth = {50,55,60,65,70};
     static final int[] UpdateTime = {100,100,100,100,100};
 
-    static final int maxLevel = 5;
-
     public BaseCamp(Location loc, UUID owner) {
         super(loc, owner);
-        level = 0;
+        health = maxHealth[level];
 
     }
 
@@ -62,21 +57,10 @@ public class BaseCamp extends ResourceBuilding implements CanLevelUp {
         return 36;
     }
 
-    @Override
-    public void levelUp(Player player) {
 
-        new BukkitRunnable(){
-            @Override
-            public void run(){
-                if(level < maxLevel)
-                    level++;
-                if(player.isOnline()) player.sendMessage(ChatColor.GREEN + "升级成功！");
-            }
-        }.runTaskLater(ClashOfSky.instance,getLevelUpTime());
-    }
 
     @Override
-    public List<Goods> getResourceList() {
+    public List<Goods> getLevelUpResourceList() {
         int[] levelUpMoney = {250,2000,24000,88000};
         List<Goods> rescourceList = new ArrayList<>();
         rescourceList.add(new Goods(Material.AIR,levelUpMoney[level],"Money"));
@@ -86,5 +70,15 @@ public class BaseCamp extends ResourceBuilding implements CanLevelUp {
     @Override
     public int getLevelUpTime() {
         return  UpdateTime[level];
+    }
+
+    @Override
+    public int getMaxLevel() {
+        return 4;
+    }
+
+    @Override
+    public boolean isMaxlevel() {
+        return level >= getMaxLevel();
     }
 }
