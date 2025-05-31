@@ -20,7 +20,6 @@ public class BuildingYingHua extends Building {
         super(loc, owner);
     }
 
-    @Override
     public String getName() {
         return BuildingName;
     }

@@ -4,14 +4,12 @@ import com.clashOfSky.AboutPlayer.PlayerItemGiver;
 import com.clashOfSky.ClashOfSky;
 import com.clashOfSky.building.Building;
 import com.clashOfSky.building.CanLevelUp;
-import com.clashOfSky.building.CollectAble;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.List;
 import java.util.UUID;
 
 public abstract class ResourceBuilding extends Building implements CollectAble, CanLevelUp {
@@ -33,6 +31,7 @@ public abstract class ResourceBuilding extends Building implements CollectAble, 
     }
     @Override
     public void collect(Player player) {
+        if(isOwnerOrPartner(player))return;
         RefreshInventory();
         if(inventory <= getMinInventory())return;
         int goodsNum = inventory - getMinInventory();
@@ -44,6 +43,8 @@ public abstract class ResourceBuilding extends Building implements CollectAble, 
     }
     @Override
     public void levelUp(Player player) {
+        if(isOwnerOrPartner(player))return;
+        collect(player);
         if(isMaxlevel()){
             player.sendMessage(ChatColor.RED + "已经满级！");
             return;
@@ -52,10 +53,12 @@ public abstract class ResourceBuilding extends Building implements CollectAble, 
             player.sendMessage(ChatColor.RED + "资源不足!");
             return;
         }
+        isEnable = false;
         new BukkitRunnable(){
             @Override
             public void run(){
                 level++;
+                isEnable = true;
                 if(player.isOnline()) player.sendMessage(ChatColor.GREEN + "升级成功！");
             }
         }.runTaskLater(ClashOfSky.instance,getLevelUpTime());
@@ -79,4 +82,6 @@ public abstract class ResourceBuilding extends Building implements CollectAble, 
     public int getInventory(){
         return inventory;
     }
+
+    public abstract String getName();
 }

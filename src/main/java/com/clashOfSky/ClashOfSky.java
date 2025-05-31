@@ -1,5 +1,8 @@
 package com.clashOfSky;
 
+import com.clashOfSky.AboutPlayer.Cmd_Money;
+import com.clashOfSky.AboutPlayer.Cmd_Pay;
+import com.clashOfSky.AboutPlayer.Cmd_Store;
 import com.clashOfSky.building.BuildingCmd;
 import com.clashOfSky.building.BuildingListener;
 import net.kyori.adventure.text.Component;
@@ -19,6 +22,9 @@ public final class ClashOfSky extends JavaPlugin {
         }
         instance = this;
         this.getCommand("build").setExecutor(new BuildingCmd());
+        this.getCommand("pay").setExecutor(new Cmd_Pay());
+        this.getCommand("money").setExecutor(new Cmd_Money());
+        this.getCommand("store").setExecutor(new Cmd_Store());
         this.getServer().getPluginManager().registerEvents(new BuildingListener(),this);
         this.getServer().sendMessage(Component.text("插件启动"));
         // Plugin startup logic

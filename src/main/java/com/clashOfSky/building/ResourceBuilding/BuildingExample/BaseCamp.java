@@ -74,7 +74,7 @@ public class BaseCamp extends ResourceBuilding {
 
     @Override
     public int getMaxLevel() {
-        return 4;
+        return 5 - 1;
     }
 
     @Override

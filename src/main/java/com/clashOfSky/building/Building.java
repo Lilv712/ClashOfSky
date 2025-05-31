@@ -1,5 +1,7 @@
 package com.clashOfSky.building;
 
+import com.clashOfSky.AboutPlayer.PlayerItemGiver;
+import com.clashOfSky.AboutPlayer.PlayerStoreHouse;
 import com.clashOfSky.ClashOfSky;
 import net.sandrohc.schematic4j.SchematicLoader;
 import net.sandrohc.schematic4j.exception.ParsingException;
@@ -12,6 +14,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.BlockData;
+import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.File;
@@ -25,7 +28,7 @@ abstract public class Building {
 
     static String buildingFolder = "schematic";
 
-    boolean isEnable;
+    public boolean isEnable;
     Incidence incidence;
     UUID ownerUUID;
     UUID uuid;
@@ -37,7 +40,11 @@ abstract public class Building {
         incidence = new Incidence(loc,getSize());
         placeBuilding();
     }
-    public abstract String getName();
+
+    public String getName() {
+        return null;
+    }
+
     public Schematic getSchematic(){
         try {
             return SchematicLoader.load(new File("./" + buildingFolder + "/" + getName() + ".litematic"));
@@ -113,5 +120,11 @@ abstract public class Building {
                 }
             }
         }.runTaskTimer(ClashOfSky.instance, 0, 2);
+    }
+    public boolean isOwnerOrPartner(UUID player){
+        return ownerUUID == PlayerStoreHouse.UUIDReflect(player);
+    }
+    public boolean isOwnerOrPartner(Player player){
+        return ownerUUID == PlayerStoreHouse.UUIDReflect(player.getUniqueId());
     }
 }

@@ -10,4 +10,8 @@ public class Size {
         Z = Math.abs(z);
     }
 
+    @Override
+    public String toString() {
+        return X + "*" + Y + "*" + Z;
+    }
 }

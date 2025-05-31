@@ -1,6 +1,6 @@
 package com.clashOfSky.building;
 
-import com.clashOfSky.building.ResourceBuilding.ResourceBuilding;
+import com.clashOfSky.building.ResourceBuilding.CollectAble;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;

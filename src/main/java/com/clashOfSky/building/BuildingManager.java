@@ -1,11 +1,7 @@
 package com.clashOfSky.building;
 
-import org.apache.commons.lang3.ObjectUtils;
-import org.apache.maven.model.Build;
-import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
-import org.bukkit.World;
 
 import java.util.*;
 
@@ -57,7 +53,7 @@ public class BuildingManager {
         Set<Building> maybeBuildingList = buildingMap.get(chunk);
         if(maybeBuildingList == null)return null;
         for(Building building : maybeBuildingList){
-            if(building.incidence.isInBuilding(loc))return building;
+            if(building.incidence.isInIncidence(loc))return building;
         }
         return null;
     }
@@ -74,7 +70,7 @@ public class BuildingManager {
                 Set<Building> set = buildingMap.get(chunk);
                 if(set == null)continue;
                 for(Building building : set){
-                    if(building.incidence.isInBuilding(incidence))
+                    if(building.incidence.isInIncidence(incidence))
                         returnSet.add(building);
                 }
             }

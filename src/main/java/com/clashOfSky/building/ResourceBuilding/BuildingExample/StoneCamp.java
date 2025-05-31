@@ -7,9 +7,9 @@ import org.bukkit.Location;
 import java.util.List;
 import java.util.UUID;
 
-public class MinerCamp extends ResourceBuilding {
+public class StoneCamp extends ResourceBuilding {
 
-    public MinerCamp(Location loc, UUID owner) {
+    public StoneCamp(Location loc, UUID owner) {
         super(loc, owner);
     }
 

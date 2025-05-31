@@ -1,5 +1,6 @@
 package com.clashOfSky.AboutPlayer;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 
 import java.util.HashMap;
@@ -79,7 +80,23 @@ public class PlayerStoreHouse {
         PlayerStoreHouse.mainStoreHouse.remove(guest);
         UUIDReflectMap.put(guest,master);
     }
+    public static String ShowStore(UUID player){
+        player = UUIDReflect(player);
+        Map<Material, Integer> storeHouse = PlayerStoreHouse.getPlayerStoreHouse(player).getStoreHouse();
+        String op = "";
+        op += "库存:\n";
+        for(Material material : PlayerStoreHouse.whiteItemMap.keySet()){
+            op += (PlayerStoreHouse.whiteItemMap.get(material) + "*" + storeHouse.get(material) + "\n");
+        }
+        return op;
+    }
     public Map<Material, Integer> getStoreHouse(){
         return StoreHouse;
+    }
+    public static Material searchMaterialFromWhiteMap(String string){
+        for(Material material : whiteItemMap.keySet()){
+            if(whiteItemMap.get(material).equals(string))return material;
+        }
+        return null;
     }
 }

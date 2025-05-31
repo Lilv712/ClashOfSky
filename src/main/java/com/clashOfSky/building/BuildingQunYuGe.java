@@ -1,12 +1,7 @@
 package com.clashOfSky.building;
 
-import net.sandrohc.schematic4j.SchematicLoader;
-import net.sandrohc.schematic4j.exception.ParsingException;
-import net.sandrohc.schematic4j.schematic.Schematic;
 import org.bukkit.Location;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.UUID;
 
 public class BuildingQunYuGe extends Building {
@@ -17,11 +12,6 @@ public class BuildingQunYuGe extends Building {
 
     public BuildingQunYuGe(Location loc, UUID owner) {
         super(loc, owner);
-    }
-
-    @Override
-    public String getName() {
-        return BuildingName;
     }
 
 }

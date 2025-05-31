@@ -5,3 +5,9 @@ api-version: '1.21'
 commands:
   build:
     description: "建造建筑相关"
+  Money:
+    description: "查询金钱"
+  Pay:
+    description: "付钱"
+  Store:
+    description: "仓库相关"

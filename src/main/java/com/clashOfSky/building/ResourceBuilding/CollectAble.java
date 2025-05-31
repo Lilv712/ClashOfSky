@@ -1,11 +1,8 @@
-package com.clashOfSky.building;
+package com.clashOfSky.building.ResourceBuilding;
 
-import com.clashOfSky.building.ResourceBuilding.Goods;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
 import java.util.List;
-import java.util.Map;
 
 //用于支持/collect收集资源
 public interface CollectAble {
